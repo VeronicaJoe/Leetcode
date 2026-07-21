@@ -1,0 +1,18 @@
+Use the below Code Structure for all Subsequence problems
+
+fn(ind,list,nums)
+{
+  if(ind>=nums.length)
+  {
+    print(list);
+    return;
+  }
+  //take
+  list.add(nums[ind]);
+  //call
+  fn(ind+1,list,nums);
+  //not take
+  list.remove(list.size()-1);
+  //call
+  fn(ind+1,list,nums);
+}
