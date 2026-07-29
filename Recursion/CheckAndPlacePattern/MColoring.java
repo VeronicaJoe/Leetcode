@@ -45,3 +45,10 @@ class Solution {
         return true;
     }
 }
+//Steps:
+//1) For every node -> check every color possibility
+//2) Check if it is safe to assign a color (adjacent node should not have the same color)
+//3) If safe:
+//          i) Assign the color
+//          ii) Move to next node
+//          iii) Backtrack
