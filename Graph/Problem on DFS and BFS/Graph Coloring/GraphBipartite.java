@@ -24,7 +24,7 @@ return true;
     private boolean bfs(int n, int color, Queue<Integer> q, int[] colors, int[][] graph) {
 
         q.offer(n);
-        colors[0] = color;
+        colors[n] = color;
 
         while (!q.isEmpty()) {
             int size = q.size();
