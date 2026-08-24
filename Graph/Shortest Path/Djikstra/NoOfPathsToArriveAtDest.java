@@ -3,7 +3,7 @@ class Solution {
     {
 
          //Step 1: Build Adj list
-          int MOD = 1_000_000_007;
+          int MOD = 1_000_000_007;//1e9+7
         int src = 0, dest = n-1;
         List<List<int[]>> adj = new ArrayList<>();
         for(int i=0;i<n;i++)
