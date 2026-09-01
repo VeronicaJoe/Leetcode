@@ -53,23 +53,13 @@ class Solution {
         List<int[]> mstEdges = new ArrayList<>();
         int sum = 0;
         DisjointSet ds = new DisjointSet(V);
-        // code here
-        //Sort the edges in asc order accrd to edgeWeights
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->Integer.compare(a[2],b[2]));
-        for(int[] edge:edges)
+        // Sort edges by weight
+        Arrays.sort(edges, (a, b) -> Integer.compare(a[2], b[2]));
+        for(int[]edge:edges)
         {
             int u = edge[0];
             int v = edge[1];
             int wt = edge[2];
-            pq.offer(new int[]{u,v,wt});
-        }
-        
-        while(!pq.isEmpty())
-        {
-            int[] element = pq.poll();
-            int u = element[0];
-            int v = element[1];
-            int wt = element[2];
             
             if(ds.findUltParent(u)!=ds.findUltParent(v))
             {
