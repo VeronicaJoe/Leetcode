@@ -55,28 +55,30 @@ class Solution {
     }
     public int makeConnected(int n, int[][] connections) 
     {
-        int m = n-1;//no of valid edges accd to DSU
         //Step 1: Find DSU
         DisjointSet ds = new DisjointSet(n);
-        int mst = 0;
+        int components = 0;
+        int extraEdges = 0;
         for(int[] connection:connections)
         {
             int u = connection[0];
             int v = connection[1];
-            if(ds.findUltParent(u)!=ds.findUltParent(v))
+            if(ds.findUltParent(u)==ds.findUltParent(v))
             {
-                //not same component
-                mst++;
+                // same component
+               extraEdges++;
+            }
+            else
+            {
                 ds.unionBySize(u,v);
             }
         }
-
-        //Step 2: Get the Invalid Pairs 
-        int invalid = connections.length - mst;
-
-        //Step 3: Get the needed connections 
-        int needed = m - mst;
-
-        return (needed>invalid)?-1:needed;
+        for(int node = 0;node<n;node++)
+        {
+            if(node==ds.findUltParent(node))
+            components++;
+        }
+        int requiredEdges = components - 1;
+        return (extraEdges>=requiredEdges)?requiredEdges:-1;
     }
 }
