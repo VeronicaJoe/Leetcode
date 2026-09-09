@@ -21,7 +21,7 @@ class Solution {
     {
         int n = arr.length;
         int low = 0,high = n-1;
-        int candidate=Integer.MIN_VALUE;
+        int candidate=-1;
         while(low<=high)
         {
             int mid = low+(high-low)/2;
@@ -36,6 +36,6 @@ class Solution {
                 low = mid+1;
             }
         }
-        return (candidate==Integer.MIN_VALUE)?candidate:n-candidate;
+        return (candidate==-1)?0:n-candidate;
     }
 };
