@@ -1,5 +1,6 @@
 class Node
 {
+    //DLL
     String data;
     Node prev;
     Node next;
