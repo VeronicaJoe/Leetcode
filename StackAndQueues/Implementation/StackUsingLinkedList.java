@@ -49,8 +49,10 @@ class myStack {
     {
         // Removes the front element of the stack.
         if(!isEmpty())
+        {
         head = head.next;
         size--;
+        }
     }
 
     public int peek() {
