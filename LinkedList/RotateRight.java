@@ -11,43 +11,31 @@
 class Solution {
     public ListNode rotateRight(ListNode head, int k) 
     {
-        //Edge Case: 
-        if(head==null||head.next==null||k<=0)
-        {
-            return head;
-        }    
-
-        //Step 1: Find no of nodes and find the tail node
+        if(head==null||head.next==null||k<0)
+        return head;
+        //Step 1: Find length and tail
         ListNode tail = head;
-        int length = 1;//for head;
+        int len = 1;
         while(tail.next!=null)
         {
+            len++;
             tail = tail.next;
-            length++;
         }
-
-        //Step 2: Find the newTail = n-kth node
-        k = k%length;//reduce the rotations
-        if(k<=0)
-        {
-            return head;
-        }
-
-        int steps = length-k;
-        ListNode newTail = head;
-        for(int i=1;i<steps;i++)
-        {
-            newTail = newTail.next;
-        }
-
-        //Step 3: Find newHead = n-k+1
-        ListNode newHead = newTail.next;
-
-        //Connect:
-        tail.next = head;
-        newTail.next = null;
-        head = newHead;
-
+        //Edge Case: No rotations
+        k = k%len;
+        if(k==0)
         return head;
+        //Step 2:Find len-k node
+        int cnt = len-k-1;
+        ListNode beforeHead = head;
+        while(cnt>0)
+        {
+            beforeHead = beforeHead.next;
+            cnt--;
+        }
+        ListNode newHead = beforeHead.next;
+        beforeHead.next = null;
+        tail.next = head;
+        return newHead;
     }
 }
