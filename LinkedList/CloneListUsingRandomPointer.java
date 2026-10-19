@@ -14,79 +14,86 @@ class Node {
 */
 
 class Solution {
-    //Approach (1): Using Hashmap
+    //Approach(1): Using a HashMap 
     public Node copyRandomList1(Node head) 
     {
+        //Step 1: Create new nodes and add to map<original,clone>
         Map<Node,Node> map = new HashMap<>();
-        //Step 1: Create new nodes and store in map<original,copy>
-        Node temp = head;
-        while(temp!=null)
+        Node original = head;
+        while(original!=null)
         {
-            Node newNode = new Node(temp.val);
-            map.put(temp,newNode);
-            temp = temp.next;
+            Node clone = new Node(original.val);
+            map.put(original,clone);
+            original = original.next;
         }
-
-        //Step 2: Again traverse through original list and get the clone from the map
-        temp = head;
-        while(temp!=null)
+        //Step 2: Traverse the list again and map the random and next clone nodes 
+        original = head;
+        while(original!=null)
         {
-            Node copy = map.get(temp);
-            //next
-            copy.next = map.get(temp.next);
-            //random
-            copy.random = map.get(temp.random);
-            temp = temp.next;
+            //get the cloned node
+            Node clone = map.get(original);
+            //connect to random
+            Node originalNext = original.next;
+            Node originalRandom = original.random;
+            //connect to next
+            if(originalNext==null)
+            {
+                clone.next = null;
+            }
+            else
+            {
+                clone.next = map.get(originalNext);
+            }
+            //connect to random
+            if(originalRandom==null)
+            {
+                clone.random = null;
+            }
+            else
+            {
+                clone.random = map.get(originalRandom);
+            }
+            original = original.next;
         }
         return map.get(head);
     }
-
-    // TC: O(N) SC: O(N)+O(N) 
-
-    //Approach(2): Without Using HashMap
+    //Approach(2): By inserting the nodes in-between
     public Node copyRandomList(Node head) 
     {
-        if(head==null)
-        return null;
-        //Step 1: Create new nodes and insert inbetween
+        //Step 1: Create new node and insert inbetween
         Node temp = head;
         while(temp!=null)
         {
             Node newNode = new Node(temp.val);
             Node nextNode = temp.next;
-            //connect: temp(original) -> newNode -> nextNode
+            //connect(link + delink)
             temp.next = newNode;
             newNode.next = nextNode;
 
-            temp = nextNode;//2 steps , if 1 step used will land in copy
+            temp = temp.next.next;//move 2 places since clone is placed inbetween
         }
-
-        //Step 2: Connect Random ptrs
+        //Step 2: Connect the random pointers
         temp = head;
         while(temp!=null)
         {
-            Node copy = temp.next;
             Node originalRandom = temp.random;
+            Node clone = temp.next;
             if(originalRandom==null)
-            {
-                copy.random = null;
-            }
+                clone.random = null;
             else
             {
-                copy.random = originalRandom.next;
+                clone.random = originalRandom.next;
             }
             temp = temp.next.next;
         }
-
-        //Step 3: Connect next but extract the copy list using a dummy node approach
+        //Step 3: Connect the next pointers(dummy)
+        temp = head;
         Node dummy = new Node(-1);
         Node res = dummy;
-        temp = head;
         while(temp!=null)
         {
-            res.next = temp.next;//copy
-            temp.next = temp.next.next;//original
-
+            res.next = temp.next;
+            temp.next = temp.next.next;
             res = res.next;
             temp = temp.next;
         }
