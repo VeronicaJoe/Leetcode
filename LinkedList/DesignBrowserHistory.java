@@ -1,78 +1,56 @@
-class Node
-{
-    //DLL
-    String data;
-    Node prev;
-    Node next;
-    Node(String data)
+class BrowserHistory {
+    class Node
     {
-        this.data = data;
-        prev = null;
-        next = null;
+        String website;
+        Node next;
+        Node prev;
+        
+        public Node(String website)
+        {
+            this.website = website;
+        }
+        public Node(String website,Node next,Node prev)
+        {
+            this.website = website;
+            this.next = next;
+            this.prev = prev;
+        }
+        
     }
-    Node(String data,Node prev,Node next)
-    {
-        this.data = data;
-        this.prev = prev;
-        this.next = next;
-    }
-}
-class BrowserHistory 
-{
-    Node current;
+    Node curr = null;
     public BrowserHistory(String homepage) 
     {
-        current = new Node(homepage);    
+        // code here
+        curr = new Node(homepage);
     }
-    
+
     public void visit(String url) 
     {
-        Node newNode = new Node(url);
-        current.next = newNode;
-        newNode.prev = current;
-        current = newNode;    
+        // code here
+        Node newPage = new Node(url);
+        curr.next = newPage;
+        newPage.prev = curr;
+        curr = newPage;
     }
-    
+
     public String back(int steps) 
     {
-        while(steps>0)
+        // code here
+        while(steps>0&&curr.prev!=null)
         {
-            if(current.prev!=null)
-            {
-                current = current.prev;
-            }
-            else
-            {
-                break;
-            }
             steps--;
-        }    
-        return current.data;
+            curr = curr.prev;
+        }
+        return curr.website;
     }
-    
-    public String forward(int steps) 
-    {
-        // "yt"->"lc"->"fb"(curr)
-        while(steps>0)
+
+    public String forward(int steps) {
+        // code here
+        while(steps>0&&curr.next!=null)
         {
-            if(current.next!=null)
-            {
-                current = current.next;
-            }
-            else
-            {
-                break;
-            }
             steps--;
-        }    
-        return current.data;
+            curr = curr.next;
+        }
+        return curr.website;
     }
 }
-
-/**
- * Your BrowserHistory object will be instantiated and called as such:
- * BrowserHistory obj = new BrowserHistory(homepage);
- * obj.visit(url);
- * String param_2 = obj.back(steps);
- * String param_3 = obj.forward(steps);
- */
