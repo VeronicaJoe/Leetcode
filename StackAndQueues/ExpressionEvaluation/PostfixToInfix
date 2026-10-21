@@ -1,0 +1,25 @@
+class Solution {
+    static String postToInfix(String s) 
+    {
+        // code here
+        Deque<String> st = new ArrayDeque<>();
+        for(char ch: s.toCharArray())
+        {
+            if(Character.isLetterOrDigit(ch))
+            {
+                //if operand push to stack
+                st.push(String.valueOf(ch));
+            }
+            else
+            {
+                //operator
+                String op2 = st.pop();
+                String op1 = st.pop();
+                
+                String res = '('+op1+ch+op2+')';
+                st.push(res);
+            }
+        }
+        return st.pop();
+    }
+}
