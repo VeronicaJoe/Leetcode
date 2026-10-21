@@ -1,0 +1,74 @@
+class Solution {
+    static int precedence(char ch)
+    {
+        if(ch=='^')
+        return 3;
+        else if(ch=='/'||ch=='*')
+        return 2;
+        else if(ch=='+'||ch=='-')
+        return 1;
+        else
+        return -1;
+    }
+    static String infixToPrefix(String s) 
+    {
+        // code here
+        StringBuilder input = new StringBuilder(s);
+        StringBuilder sb = new StringBuilder();
+        Deque<Character> st = new ArrayDeque<>();
+        //Step 1: Reverse the expression
+        input.reverse();
+        //Step 2: Swap (<->)
+        for(int i=0;i<input.length();i++)
+        {
+            if(input.charAt(i)=='(')
+            {
+                input.setCharAt(i,')');
+            }
+            else if(input.charAt(i)==')')
+            {
+                input.setCharAt(i,'(');
+            }
+        }
+        //Step 3: Perform Infix -> Postfix (but associativity changed since reversed)
+        //^ -> Left to Right
+        // +,-,/,* -> Right to Left
+        for(int i=0;i<input.length();i++)
+        {
+            char ch = input.charAt(i);
+            if(Character.isLetterOrDigit(ch))
+            {
+                sb.append(ch);
+            }
+            else if(ch=='(')
+            {
+                st.push(ch);
+            }
+            else if(ch==')')
+            {
+                while(!st.isEmpty()&&st.peek()!='(')
+                {
+                    sb.append(st.pop());
+                }
+                st.pop();//pop out (
+            }
+            else
+            {
+                //operator
+                while(!st.isEmpty()&&st.peek()!='('&&(precedence(st.peek())>precedence(ch)||(precedence(st.peek())==precedence(ch)&&ch=='^')))
+                {
+                    sb.append(st.pop());
+                }
+                st.push(ch);
+            }
+        }
+        while(!st.isEmpty())
+        {
+            sb.append(st.pop());
+        }
+        //Step 4: Reverse the sb
+        sb.reverse();
+        
+        return sb.toString();
+    }
+}
