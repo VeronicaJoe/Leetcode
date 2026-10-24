@@ -1,5 +1,6 @@
 class Solution {
     //Brute Force: Using PrefixMax and SuffixMax - precompute
+    //TC: O(N) and SC: O(N)
     //Left boundary
     private int[] prefixMax(int[] height)
     {
@@ -28,7 +29,7 @@ class Solution {
         }
         return suffix;
     }
-    public int trap(int[] height) 
+    public int trap1(int[] height) 
     {
         int n = height.length;
         if(n==0)
@@ -43,4 +44,33 @@ class Solution {
         }
         return trap;
     }
+    //Optimal: Without using extra spaces - running max calc - using 2 pointer
+    public int trap(int[] height) 
+    {
+        //Step 1: 2 pointer
+        int n = height.length;
+        int left = 0, right = n-1;
+        int maxLeft = 0, maxRight = 0;
+        int waterTrapped = 0;
+        while(left<right)
+        {
+            //process the smallest height first 
+            if(height[left]<height[right])
+            {
+                //get the maximum left height
+                maxLeft = Math.max(maxLeft,height[left]);
+                waterTrapped+=maxLeft-height[left];
+                left++;
+            }
+            else
+            {
+                //get the maximum right height
+                maxRight = Math.max(maxRight,height[right]);
+                waterTrapped+=maxRight-height[right];
+                right--;
+            }
+        }
+        return waterTrapped;
+    }
 }
+
