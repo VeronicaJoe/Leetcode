@@ -1,0 +1,45 @@
+Lexicographical order is basically dictionary order.
+
+Think about how words are arranged in a dictionary:
+- apple comes before banana.
+- cat comes before dog.
+- abc comes before acb.
+- ab comes before ac.
+
+For strings, we compare characters from left to right. At the first position where two strings differ, the string with the smaller character comes first.
+
+For example, compare "abc" and "acb":
+
+| Position | String 1 | String 2 |
+|----------|----------|----------|
+| 1        | a        | a        |
+| 2        | b        | c        |
+| 3        | c        | b        |
+
+The first characters are equal, so we move to the second position.
+
+Since b < c, we conclude:
+
+"abc" < "acb" lexicographically.
+
+Notice something important: we never needed to compare the third characters. The first difference decides the result.
+
+What about strings of different lengths?
+Compare "ab" and "abc".
+
+The first two characters match. Since "ab" ends there, the shorter string comes first.
+
+Therefore:
+
+"ab" < "abc"
+
+One more important example:
+Compare "ba" and "az".
+
+Even though "ba" starts with b and "az" starts with a, we simply compare the first characters:
+
+a < b
+
+Therefore, "az" < "ba".
+
+The golden rule: Compare from left to right. The first different character determines which string is lexicographically smaller.
