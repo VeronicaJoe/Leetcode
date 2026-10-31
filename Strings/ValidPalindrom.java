@@ -1,5 +1,5 @@
 class Solution {
-    public boolean isPalindrome(String s) {
+    public boolean isPalindrome1(String s) {
 
         //2 pointer approach   
         s = s.trim();
@@ -22,6 +22,39 @@ class Solution {
             return false;
             left++;
             right--;
+        }
+        return true;
+    }
+    //Use a stack
+    public boolean isPalindrome(String s) 
+    {
+        //Add all chars to stack and pop and compare
+        Deque<Character> st = new ArrayDeque<>();
+        s = s.trim();
+        if(s.length()==0)
+        return true;
+
+        //Step 1: Push
+        s = s.toLowerCase();
+        for(char ch:s.toCharArray())
+        {
+            if(Character.isLetterOrDigit(ch))
+            {
+                st.push(ch);
+            }
+        }
+        //Step 2: Pop and Compare
+        int ind = 0;
+        while(!st.isEmpty())
+        {
+            if(!Character.isLetterOrDigit(s.charAt(ind)))
+            {
+                ind++;
+                continue;
+            }
+            if(st.pop()!=s.charAt(ind))
+            return false;
+            ind++;
         }
         return true;
     }
