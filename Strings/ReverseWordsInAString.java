@@ -27,27 +27,18 @@ class Solution {
         char[] arr = s.toCharArray();
         reverse(arr,0,arr.length-1);
 
-        int start=0,end=0;
-        while(start<arr.length&&end<=arr.length)
+        int start=0;
+        for(int end = 0;end<=arr.length;end++)
         {
             if(end==arr.length||arr[end]==' ')
             {
-                //end ->' '
                 reverse(arr,start,end-1);
-                if(end==arr.length)
-                break;
-                start = end+1;
+                start = end+1;//ignore space
             }
-            end++;
         }
 
         //char arr -> string
-        StringBuilder sb = new StringBuilder();
-        for(char ch:arr)
-        {
-            sb.append(ch);
-        }
-        return sb.toString();
+       return new String(arr);
     }
     private void reverse(char[] arr,int left,int right)
     {
