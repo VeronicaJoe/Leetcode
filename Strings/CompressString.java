@@ -1,5 +1,5 @@
 class Solution {
-    public int compress(char[] chars) 
+    public int compress1(char[] chars) 
     {
         //Edge Case:
         int length = chars.length;
@@ -40,6 +40,32 @@ class Solution {
         for(char ch:sb.toString().toCharArray())
         {
             chars[ind++]=ch;
+        }
+        return ind;
+    }
+    //Optimal Approach: Without using extra space - in place update
+    public int compress(char[] chars) 
+    {
+        int ind = 0;
+        int i = 0;
+        while(i<chars.length)
+        {
+            char ch = chars[i];
+            int cnt = 0;
+            while(i<chars.length&&chars[i]==ch)
+            {
+                cnt++;
+                i++;
+            }
+            chars[ind++]=ch;
+            if(cnt>1)
+            {
+                String num = String.valueOf(cnt);
+                for(int j=0;j<num.length();j++)
+                {
+                    chars[ind++]=num.charAt(j);
+                }
+            }
         }
         return ind;
     }
