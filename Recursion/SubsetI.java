@@ -1,26 +1,49 @@
 class Solution {
-    public List<List<Integer>> subsets(int[] nums) 
+    //Generating using bit manip
+    //                          If ith bit is set then add to string (n&(1<<i))!=0 => SET)
+    //                          No of combinations: 2^n eg: n = 3 then. 2^3 = 8
+    public List<List<Integer>> subsets1(int[] nums) 
     {
+        int len = nums.length;
+        int total = 1<<len;//2^n
         List<List<Integer>> res = new ArrayList<>();
-
-        generate(0,res,new ArrayList<>(),nums);
-
+        for(int mask = 0;mask<total;mask++)
+        {
+            List<Integer> list = new ArrayList<>();
+            for(int i=0;i<len;i++)
+            {
+                if((mask&(1<<i))!=0)
+                {
+                    list.add(nums[i]);
+                }
+            }
+            res.add(list);
+        }
         return res;
     }
-    private void generate(int ind,List<List<Integer>> res,List<Integer> currList,int[] nums)
+    //TC: O(2^N*N) -> generating subsets
+    //Optimal: Using Recursion - Take/Not Take
+
+    public List<List<Integer>> subsets(int[] nums)
     {
+        List<List<Integer>> res = new ArrayList<>();
+        generate(nums,0,res,new ArrayList<>());
+        return res;
+    }
+    private void generate(int[] nums,int ind,List<List<Integer>> res,List<Integer> list)
+    {
+        //Base Condition:
         if(ind>=nums.length)
         {
-            res.add(new ArrayList<>(currList));
+            res.add(new ArrayList<>(list));
             return;
         }
-        //add
-        currList.add(nums[ind]);
-        //call
-        generate(ind+1,res,currList,nums);//take
-        //remove
-        currList.remove(currList.size()-1);
-        //call
-        generate(ind+1,res,currList,nums);//not take
+
+        //Take
+        list.add(nums[ind]);
+        generate(nums,ind+1,res,list);
+        //Not Take
+        list.remove(list.size()-1);
+        generate(nums,ind+1,res,list);
     }
 }
